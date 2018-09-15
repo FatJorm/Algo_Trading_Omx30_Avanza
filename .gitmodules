@@ -1,0 +1,3 @@
+[submodule "include/python-avanza-scraper"]
+	path = include/python-avanza-scraper
+	url = https://github.com/webdeziner/python-avanza-scraper.git
