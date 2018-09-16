@@ -5,7 +5,9 @@ import os
 from datetime import datetime
 import pandas as pd
 from collections import OrderedDict
+import sys
 
+os.chdir(sys.path[0])
 
 class Omx30_Avanza:
     def __init__(self):
@@ -31,7 +33,7 @@ class Omx30_Avanza:
         return list(set(watch_list_l)|set(self.get_omx30_companies_today()))
 
     def get_stock_urls(self):
-        with open('ticker_to_stock.pickle', 'rb') as f:
+        with open(self.urlsFile, 'rb') as f:
             return pickle.load(f)
 
     def make_soup(self, url):
@@ -63,13 +65,13 @@ class Omx30_Avanza:
 
     def crawl(self):
         missing_company_l = []
-        date = datetime.now().strftime('%Y-%m-%d')
+        date = datetime.now()
         for company in self.watch_list:
             try:
                 url = self.stock_urls[company]
             except:
                 missing_company_l.append(company)
-                with open('MISSING_COMPANY.pickel', 'w') as f:
+                with open('MISSING_COMPANY.pickel', 'w+') as f:
                     pickle.dump(missing_company_l,f)
             file_name = '{}.csv'.format(company)
             file_path = os.path.join('data', file_name)
